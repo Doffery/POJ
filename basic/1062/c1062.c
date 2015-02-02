@@ -1,6 +1,7 @@
-#include<stdio.h>
-#include<memory.h>
-
+#include<iostream>
+#include<cstdio>
+#include<cstdlib>
+#include<queue>
 
 typedef struct {
 	int money;
@@ -11,16 +12,19 @@ typedef struct {
 	int money;
 	int level;
 	Edge *edge;
+
+	bool operator < (const TNode & a) const {
+		return a.money > money;
+	}
 }TNode;
 TNode nodes[110];
 
-int graph[110][110];
+int costs[110];
+
 
 int main() {
 	freopen("in.txt", "r", stdin);
 	freopen("out.txt", "w", stdout);
-
-	memset(graph, 0, sizeof(graph));
 
 	int m, n;
 	scanf("%d %d", &m, &n);
@@ -47,6 +51,7 @@ int main() {
 		}
 	}
 
-
+	
+	
 
 }
