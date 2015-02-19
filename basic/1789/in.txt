@@ -1,0 +1,13 @@
+4
+aaaaaaa
+baaaaab
+abaaaaa
+aabaaaa
+6
+aaaccac
+ccaaaac
+ccaaccc
+caaaccc
+ccaaacc
+accccaa
+0
