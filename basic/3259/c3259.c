@@ -5,14 +5,14 @@
 //It's about find a negative cycle with Bellman-Ford Algorithm
 
 #define INFIN 0x7fffffff
-typedef struct {
+struct Edge{
 	int value;
 	int s, t;//start node and terminal
 	Edge(){}
 	Edge(int si, int ti, int valuei) {
-		s = si; t = ti; value = valuei
+		s = si; t = ti; value = valuei;
 	}
-} Edge;
+};
 
 struct Node {
 	std::vector<Edge> edges;
@@ -27,13 +27,13 @@ bool Check() {
 	int i;
 	for(i = 1; i < N+1; ++i) 
 		dist[i] = INFIN;
-
+	dist[1] = 0;
 	int j;
 	for(i = 0; i < N; ++i) {
 		for(j = 1; j < N + 1; ++j) {
-			int en = node[j].edges.size();
+			int en = nodes[j].edges.size();
 			for(; en > 0; --en) {
-				Edge e = node[j].edges[en - 1];
+				Edge e = nodes[j].edges[en - 1];
 				if(dist[e.s] != INFIN) {
 					if(dist[e.s] + e.value < dist[e.t])
 						dist[e.t] = dist[e.s] + e.value;
@@ -42,9 +42,9 @@ bool Check() {
 		}
 	}
 	for(j = 1; j < N + 1; ++j) {
-		int en = node[j].edges.size();
+		int en = nodes[j].edges.size();
 		for(; en > 0; --en) {
-			Edge e = node[j].edges[en - 1];
+			Edge e = nodes[j].edges[en - 1];
 			if(dist[e.s] != INFIN) {
 				if(dist[e.s] + e.value < dist[e.t])
 					return true;
@@ -63,6 +63,9 @@ int main() {
 	while(f--) {
 		scanf("%d %d %d", &N, &M, &W);
 		int i;
+		for(i = 1; i < N + 1; ++i) {
+			nodes[i].edges.clear();
+		}
 		for(i = 0; i < M; ++i) {
 			int s, t, value;
 			scanf("%d %d %d", &s, &t, &value);
