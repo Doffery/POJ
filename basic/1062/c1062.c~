@@ -1,7 +1,7 @@
 #include<iostream>
 #include<cstdio>
 #include<cstdlib>
-#include<list>
+#include<vector>
 using namespace std;
 
 struct Edge {
@@ -16,29 +16,28 @@ struct Edge {
 struct TNode{
 	int money;
 	int level;
-	list<Edge> edges;
+	std::vector<Edge> edges;
 }nodes[110];
 
 int m, n;
 int minMoney;
 int minLevel, maxLevel;
 void dfs(int p, int money) {
-	int s = nodes[p].edges.size();
-	list<Edge>::iterator it;
-	it = nodes[p].edges.begin();
-	for(; it != nodes[p].edges.end(); ++it) {
-		if(nodes[it->index].level > minLevel + m 
-				|| nodes[it->index].level < maxLevel - m)
+	int i, s = nodes[p].edges.size();
+	for(i = 0; i < s; ++i) {
+		Edge e = nodes[p].edges[i];
+		if(nodes[e.index].level > minLevel + m 
+				|| nodes[e.index].level < maxLevel - m)
 			continue;
 		int tminl = minLevel, tmaxl = maxLevel;
-		if(nodes[it->index].level < minLevel)
-			minLevel = nodes[it->index].level;
-		else if(nodes[it->index].level > maxLevel)
-			maxLevel = nodes[it->index].level;
-		if(it->index == 1) {
-			if(money + it->money < minMoney)
-				minMoney = it->money + money;
-		} else dfs(it->index, money + it->money);
+		if(nodes[e.index].level < minLevel)
+			minLevel = nodes[e.index].level;
+		else if(nodes[e.index].level > maxLevel)
+			maxLevel = nodes[e.index].level;
+		if(e.index == 1) {
+			if(money + e.money < minMoney)
+				minMoney = e.money + money;
+		} else dfs(e.index, money + e.money);
 		minLevel = tminl; maxLevel = tmaxl;
 	}
 }
