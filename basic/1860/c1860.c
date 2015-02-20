@@ -16,23 +16,23 @@ double money[110];
 int N, M, S;
 double V;
 bool Bellman() {
-	int i;
-	for(i = 0; i < N; ++i)
+	int i, j;
+	for(i = 1; i < N+1; ++i)
 		money[i] = 0;
 	money[S] = V;
 
-	for(i = 0; i < 2 * N; ++i) {
-		int j;
-		for(j = 0; j < N; ++j) {
+	for(i = 0; i < N + 1; ++i) {
+		for(j = 1; j < N+1; ++j) {
 			size_t t = nodes[j].edges.size();
 			size_t en;
 			for(en = 0; en < t; ++en) {
 				Edge e = nodes[j].edges[en];
-				if(money[e.t] != 0) {
+				if(money[e.s] != 0) {
 					double rc = (money[e.s] - e.commission) * e.rate;
-					if(rc >= money[e.t]) {
+					if(rc > money[e.t]) {
 						money[e.t] = rc;
-						if(e.t == S)
+						//if(e.t == S)
+						if(i == N)
 							return true;
 					}
 				}
@@ -48,8 +48,11 @@ int main() {
 
 
 	while(scanf("%d %d %d %lf", &N, &M, &S, &V) != EOF) {
-		int i = 0;
-		for(; i < M; ++i) {
+		int i;
+		for(i = 1; i < N+1; ++i) {
+			nodes[i].edges.clear();
+		}
+		for(i = 0; i < M; ++i) {
 			int s, t;
 			scanf("%d %d", &s, &t);
 			Edge e, er;
@@ -65,10 +68,5 @@ int main() {
 			printf("YES\n");
 		else printf("NO\n");
 	}
-
-
-
-
-
 
 }
