@@ -45,7 +45,7 @@ int main() {
 		for(i = 1; i < n; ++i)
 			scanf("%d", &tn[i]);
 		memset(times, 0, sizeof(times));
-		fishe = 0;
+		fishe = -1;
 		tn[0] = 0;
 		int end, tfishe, ttimes[25];
 		for(end = 0; end < n; ++end) {
@@ -55,7 +55,7 @@ int main() {
 			memset(ttimes, 0, sizeof(ttimes));
 			for(j = 0; j <= end; ++j) {
 				tmin -= tn[j] * 5;
-				if(fn[j] != 0)
+				if(fn[j] > 0)
 					heap_max.push(mpair(fn[j], j));
 			}
 			if(tmin <= 0)
