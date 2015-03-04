@@ -1,0 +1,98 @@
+#include<cstdio>
+#include<cstring>
+
+int data[1010];
+
+int cacu[1010];
+
+
+#define NUM 200
+int pow2[NUM];//1000
+int result[NUM];
+
+void Cacauc(int n, bool force) {
+	if(n == 0) {
+		if(force || data[0])
+			cacu[0] ++;
+		return;
+	}/* else if(n == 1) {
+		if(data[1]) {
+			if(data[0])
+				cacu[1] ++;
+			else 
+		}
+	}*/
+	if(force || data[n]) {
+		cacu[n-1] ++;
+		if(data[n-1]) {
+			if(n > 1) Cacauc(n-2, false);
+		} else Cacauc(n-1, true);
+		cacu[0] ++;
+	} else Cacauc(n-1, false);
+}
+
+void Multiply(int m[], int x) {
+	int i;
+	int carry = 0;
+	for(i = 0; i < NUM-1; ++i) {
+		m[i] *= x;
+		m[i] += carry;
+		if(m[i] >= 1000) {
+			carry = (int)(m[i] / 1000);
+			m[i] %= 1000;
+		} else carry = 0;
+	}
+}
+
+void MultiAdd(int x) {
+	int i, carry = 0;
+	for(i = 0 ; i < NUM -1; ++i) {
+		result[i] += pow2[i] * x;
+		result[i] += carry;
+		if(result[i] >= 1000) {
+			carry = (int)(result[i]/1000);
+			result[i] %= 1000;
+		} else carry = 0;
+	}
+}
+
+int main() {
+
+	freopen("in.txt", "r", stdin);
+
+	int n;
+	scanf("%d", &n);
+	int i, j;
+	for(i = 0; i < n; ++i) {
+		scanf("%d", &data[i]);
+		if(data[i])
+			j = i;
+	}
+	memset(cacu, 0, sizeof(cacu));
+	Cacauc(n-1, false);
+
+	memset(pow2, 0 , sizeof(pow2));
+	memset(result, 0, sizeof(result));
+	pow2[0] = 1;
+	for(i = 0; i <= j; ++i) {
+		if(cacu[i])
+			MultiAdd(cacu[i]);
+		//multiply 2 and plus 1
+		if(i != j) {
+			Multiply(pow2, 2);
+			pow2[0] ++;
+		}
+	}
+	bool s = true;
+	for(i = NUM; i > 0; --i) {
+		if(result[i-1] == 0 && s && i)
+			continue;
+		else {
+			if(s)
+				printf("%d", result[i-1]);
+			else printf("%03d", result[i-1]);
+			s = false;
+		}
+	}
+	printf("\n");
+}
