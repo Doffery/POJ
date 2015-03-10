@@ -1,0 +1,52 @@
+#include<cstdio>
+
+int N, P;
+
+int d[160][160];
+int head[160];
+int son[160];
+bool fa[160];
+
+void DFS(int x) {
+    int i,j,k;
+    for(i = 0; i <= p; i++) dp[v][i] = INF;
+    dp[v][1] = 0;
+    int s = son[v];
+    while(s)
+    {
+        dfs(s);
+        for(i = p; i >= 0; i--)
+        {
+            int tmp = dp[v][i]+1;
+            for(j = 1; j < i; j++)
+                tmp = min(tmp, dp[v][j]+dp[s][i-j]);
+            dp[v][i] = tmp;
+        }
+        s = head[s];
+    }
+}
+
+int main() {
+	freopen("in.txt", "r", stdin);
+
+	int i, j, k;
+	while(~scanf("%d %d", &N, &P)) {
+		int ht, st;
+		int root;
+		memset(fa, 0, sizeof(fa));
+		for(i = 0; i < N; ++i) {
+			scanf("%d %d", &ht, &st);
+			head[st] = son[ht];
+			son[ht] = st;
+			fa[st] = true;
+		}
+		for(i = 1; i <= N; ++i)
+			if(!fa[i]) {
+				root = i;
+				break;
+			}
+		Dfs(root);
+		//
+	}
+
+}
